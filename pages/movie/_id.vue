@@ -48,7 +48,7 @@
               :title="name"
               class="rating">
               <img
-                :src="`https://raw.githubusercontent.com/ParkYoungWoong/vue3-movie-app/master/src/assets/${name}.png`"
+                :src="`https://raw.githubusercontent.com/FriedBob/moviesearcher-vuejs/master/src/assets/${name}.png`"
                 :alt="name" />
               <span>{{ score }}</span>
             </div>
@@ -83,9 +83,12 @@ export default {
   components: {
     Loader
   },
-  data() {
+  async asyncData({ store, params }) {    // SSR 전에 쓸 수 있는 로직 => context 사용
+    await store.dispatch('movie/searchMovieWithId', {   // this 키워드 사용불가
+      id: params.id
+    })
     return {
-      imageLoading: true
+      imageLoading: true          // 여기다가도 data로 쓰이는 데이터 작성가능
     }
   },
   computed: {
@@ -94,11 +97,11 @@ export default {
       'theMovie'
     ])
   },
-  created() {
-    this.$store.dispatch('movie/searchMovieWithId', {
-      id: this.$route.params.id
-    })
-  },
+  // created() {   // SSR 이후에 동작하므로 SSR 때 에러가 날 가능성
+  //   this.$store.dispatch('movie/searchMovieWithId', {
+  //     id: this.$route.params.id
+  //   })
+  // },
   methods: {
     requestDiffSizeImage(url, size = 700) {
       // 잘못된 URL(Poster)인 경우.

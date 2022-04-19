@@ -23,6 +23,7 @@ app.post('/', async (req, res) => {
         res.status(400)
           .json(data.Error)
       }
+			// console.log(res)
 			res.status(200).json(data)
     } catch (error) {
 			res.status(error.response.status)
