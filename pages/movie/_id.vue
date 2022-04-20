@@ -117,6 +117,18 @@ export default {
         })
       return src
     }
+  },
+  head(){   // created 되면 head()로 헤더에 메타태그 추가 : nuxt conifg와 구성이 비슷
+    return{
+      meta: [
+        { hid: 'og:type', property:'og:type', content:'website'},
+        { hid: 'og:site_name', property:'og:site_name', content:'Nuxt Movie App'},
+        { hid: 'og:title', property:'og:title', content: this.theMovie.title },
+        { hid: 'og:description', property:'og:description', content: this.theMovie.Plot},
+        { hid: 'og:image', property:'og:image', content: this.theMovie.Poster},
+        { hid: 'og:url', property:'og:url', content: `${process.env.CLIENT_URL}${this.$route.fullPath}`},
+      ]
+    }
   }
 }
 </script>

@@ -30,7 +30,7 @@ export default {
       imageLoading: true
     }
   },
-  computed: {
+  computed: {                   // server side에서 가져오는 데이터의 경우 asyncdata가 필요하지만 이 정보는 프로젝트 내에 client에 이미 시작하자마자 정의된 내용이라 필요 x
     ...mapState('about', [
       'name',
       'email',
@@ -47,7 +47,21 @@ export default {
       await this.$loadImage(this.image)
       this.imageLoading = false
     }
+  },
+  head(){
+    return {
+      meta:[
+        { hid: 'og:type', property:'og:type', content:'website'},
+        { hid: 'og:site_name', property:'og:site_name', content:'Nuxt Movie App'},
+        { hid: 'og:title', property:'og:title', content: this.name },
+        { hid: 'og:description', property:'og:description', content: this.email},
+        { hid: 'og:image', property:'og:image', content: this.image},
+        { hid: 'og:url', property:'og:url', content: `${process.env.CLIENT_URL}${this.$route.fullPath}`},
+      ]
+      
+    }
   }
+
 }
 </script>
 
